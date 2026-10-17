@@ -189,5 +189,3 @@ sql/schema.sql, sql/seed.sql
 scripts/init_db.py
 tests/test_api.py
 ```
-#   1 2 3 1 2 3 1  
- 
