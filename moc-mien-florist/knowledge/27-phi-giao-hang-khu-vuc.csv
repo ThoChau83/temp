@@ -1,0 +1,7 @@
+﻿ma_khu_vuc,ten_khu_vuc,khu_vuc_bao_gom,phi_ship_vnd,mien_phi_tu_vnd,khung_gio,giao_hoa_toc,dat_truoc_toi_thieu_ngay,chi_nhanh_phu_trach
+Z1,Nội ô Ninh Kiều,"Ninh Kiều, Cái Khế, Tân An, An Bình, Thới Bình, Xuân Khánh, Hưng Lợi, An Khánh",25000,500000,"K1, K2, K3, K4, K5, K6",có,0,Mộc Miên Ninh Kiều
+Z2,Bình Thủy – Cái Răng,"Bình Thủy, Long Tuyền, Trà Nóc, Cái Răng, Hưng Phú, Hưng Thạnh, Ba Láng",35000,800000,"K1, K2, K3, K4, K5, K6",có,0,Mộc Miên Cái Răng
+Z3,Ô Môn – Phong Điền,"Ô Môn, Phước Thới, Thới Long, Phong Điền, Nhơn Ái, Mỹ Khánh",60000,1500000,"K1, K2, K3, K4, K5",không,0,Mộc Miên Ninh Kiều
+Z4,Thốt Nốt – Thới Lai – Cờ Đỏ – Vĩnh Thạnh – Châu Thành,"Thốt Nốt, Thuận Hưng, Thới Lai, Cờ Đỏ, Vĩnh Thạnh, Châu Thành, Ngã Sáu",120000,không áp dụng,"K2, K3, K4",không,1,Mộc Miên Ninh Kiều
+NGOAI_VUNG,Ngoài vùng giao,"Vị Thanh, Ngã Bảy, Sóc Trăng, tỉnh khác",báo giá riêng,,,không,,Trưởng ca duyệt (APR-06)
+HOA_TOC,Phụ phí giao hỏa tốc 2 giờ,"Z1, Z2",40000,,08:00–18:00,có,0,Không áp dụng ngày cao điểm

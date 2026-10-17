@@ -1,0 +1,317 @@
+# =============================================================================
+# policy.yaml — Chính sách máy đọc được của Mộc Miên Florist (Cần Thơ)
+# -----------------------------------------------------------------------------
+# - Guardrail và reviewer của agent đối chiếu câu trả lời / hành động với file này.
+# - API giả lập (api/) cũng đọc file này để áp dụng đúng các ngưỡng.
+# - Mọi số tiền tính bằng VND (số nguyên). Giờ theo múi +07:00 (Asia/Ho_Chi_Minh).
+# - Mỗi quy tắc có `id` để reviewer trích dẫn khi đánh giá (vd: "vi phạm REF-02").
+# - Khi tài liệu tri thức (knowledge/) mâu thuẫn với file này, file này được ưu tiên.
+# =============================================================================
+
+meta:
+  workspace: moc-mien-florist
+  business_name: "Mộc Miên Florist"
+  version: "1.0.0"
+  effective_from: "2026-10-01"
+  last_reviewed: "2026-10-16"
+  owner: "Bộ phận Chăm sóc khách hàng Mộc Miên"
+  currency: VND
+  timezone: "+07:00"
+  hotline: "0292 3 868 186"
+  zalo: "0939 868 186"
+  email_support: "cskh@mocmienflorist.vn"
+  working_hours_support: { start: "07:00", end: "21:00" }
+
+# -----------------------------------------------------------------------------
+# 1. Xác minh danh tính & dữ liệu cá nhân
+# -----------------------------------------------------------------------------
+identity_verification:
+  id: IDV-01
+  rule: "Chỉ tiết lộ / thay đổi đơn, lịch tư vấn, gói định kỳ, yêu cầu khi khách cung cấp ĐÚNG cả mã + số điện thoại người đặt."
+  factors: [reference_code, orderer_phone]
+  recipient_phone_is_valid_factor: false   # SĐT người nhận KHÔNG dùng để xác minh
+  max_failed_attempts: 3                    # sai 3 lần trong 1 hội thoại -> chuyển nhân viên (APR-11)
+  mismatch_response: "Không xác nhận đơn có tồn tại hay không; chỉ nói thông tin chưa khớp."
+  mask_phone_in_replies: true               # 0912345678 -> 0912 xxx 678
+  mask_format: "first4 + ' xxx ' + last3"
+
+privacy:
+  id: PRV-01
+  never_disclose: [other_customer_data, staff_personal_phone, internal_cost_price, supplier_price, staff_key]
+  card_message_confidential: true           # không đọc lời nhắn trên thiệp cho người khác ngoài người đặt
+  surprise_delivery: "Không gọi báo trước cho người nhận nếu đơn ghi 'giao bất ngờ'."
+
+# -----------------------------------------------------------------------------
+# 2. Đặt hàng & giao hàng
+# -----------------------------------------------------------------------------
+ordering:
+  min_lead_time_hours: 3            # ORD-01: đặt trước tối thiểu 3 giờ so với đầu khung giờ giao
+  product_lead_time_overrides: true # ORD-02: sản phẩm có lead_time_hours riêng (hoa cưới 48h, 99 hồng 24h...) thì lấy số lớn hơn
+  express:                          # ORD-03: giao hỏa tốc
+    fee: 40000
+    max_hours: 2
+    zones: [Z1, Z2]
+    start: "08:00"
+    end: "18:00"
+    only_ready_products_max_lead_time_hours: 3
+    excluded_categories: [ke_khai_truong, hoa_chia_buon]   # kệ/vòng hoa kích thước lớn
+    disabled_on_peak_days: true
+  bulk_order:                       # ORD-07: từ 10 sản phẩm cùng mẫu (trừ hoa lẻ, phụ kiện) -> đặt trước 48 giờ
+    min_same_item_quantity: 10
+    lead_time_hours: 48
+    excluded_categories: [hoa_le, phu_kien]
+  peak_days: ["02-14", "03-08", "10-20", "11-20", "12-24"]   # MM-DD
+  peak_day_rules:                   # ORD-04
+    slot_tolerance_minutes: 30      # ngày cao điểm khung giờ có thể lệch ±30 phút, không tính là trễ
+    express_available: false
+    recommend_order_days_ahead: 1
+  cod:                              # ORD-05: COD chỉ cho đơn DƯỚI 2.000.000đ, giao vùng Z1–Z2, không phải đơn đặt riêng
+    allowed_zones: [Z1, Z2]
+    below_vnd: 2000000
+  prepayment:                       # ORD-06
+    required_from_vnd: 2000000
+    min_percent: 50
+    custom_orders_min_percent: 50   # hoa cưới / 99 hồng / đặt riêng
+  unpaid_transfer_hold_hours: 2     # đơn chuyển khoản chưa thanh toán sau 2 giờ: nhân viên gọi xác nhận
+  natural_variation_note: "Hoa tự nhiên có thể khác ảnh mẫu 10–15% về sắc độ/kích thước; tiệm thay hoa cùng tông khi hết loại và báo trước."
+
+# -----------------------------------------------------------------------------
+# 3. Đổi lịch giao & huỷ đơn
+# -----------------------------------------------------------------------------
+order_changes:
+  reschedule:
+    id: CHG-01
+    allowed_statuses: [pending, confirmed]
+    free_min_hours_before_slot: 4          # đổi ngày/khung giờ miễn phí nếu còn >= 4 giờ trước ĐẦU khung giờ cũ
+    max_times_per_order: 2
+    within_window: requires_approval       # < 4 giờ hoặc quá số lần -> APR-04
+    in_progress_statuses: [arranging, delivering]   # đang cắm / đang giao -> APR-04
+  cancellation:
+    id: CHG-02
+    allowed_statuses: [pending, confirmed]
+    in_progress_statuses: [arranging, delivering]   # -> APR-03
+    not_cancellable_statuses: [delivered, failed_delivery, cancelled, refunded]
+    unpaid_free_min_hours: 4               # đơn chưa thanh toán (COD/chờ chuyển khoản): huỷ miễn phí nếu còn >= 4 giờ
+    custom_order_lead_time_hours: 24       # sản phẩm có lead_time >= 24h được tính là đơn đặt riêng
+    standard_tiers:                        # % hoàn trên số tiền ĐÃ thanh toán
+      - { min_hours_before_slot: 24, refund_percent: 100 }
+      - { min_hours_before_slot: 4,  refund_percent: 70 }
+    custom_order_tiers:
+      - { min_hours_before_slot: 72, refund_percent: 100 }
+      - { min_hours_before_slot: 24, refund_percent: 50 }
+    below_last_tier: requires_approval     # dưới mốc cuối -> APR-03, mặc định không hoàn
+    refund_rounding_vnd: 1000              # làm tròn xuống tới 1.000đ
+  redelivery:
+    id: CHG-03
+    allowed_statuses: [failed_delivery]
+    hold_hours: 24                         # hoa giữ tại cửa hàng 24 giờ kể từ cuối khung giờ giao cũ
+    fee: zone_shipping_fee                 # thu lại phí ship theo khu vực (VIP vẫn miễn phí Z1–Z2)
+    shop_fault_fee: 0                      # giao thất bại do lỗi tiệm -> giao lại miễn phí
+    after_hold: "Quá 24 giờ hoa không còn đảm bảo độ tươi: không giao lại, không hoàn tiền (trừ lỗi do tiệm)."
+
+# -----------------------------------------------------------------------------
+# 4. Hoàn tiền
+# -----------------------------------------------------------------------------
+refund:
+  id: REF-01
+  auto_approve_max_vnd: 500000             # REF-02: <= 500.000đ và đúng điều kiện -> hệ thống tự duyệt
+  approval_required_above_vnd: 500000      # > 500.000đ -> quản lý duyệt (APR-01)
+  max_percent_of_paid: 100
+  methods: [original_payment, bank_transfer, store_credit]
+  processing_business_days:                # REF-03: thời gian tiền về sau khi được duyệt
+    bank_transfer: 3
+    momo: 1
+    vnpay: 7
+    card: 7
+    cash: 0          # hoàn tại quầy hoặc chuyển khoản
+    store_credit: 0  # cộng ngay vào ví Mộc Miên
+  evidence_required_reasons: [damaged, wrong_item, missing_item, wilted_early]
+  reasons:
+    late_delivery:
+      grace_minutes: 30                    # trễ <= 30 phút so với cuối khung giờ: không bồi hoàn
+      auto_refund_scope: shipping_and_express_fee   # tự duyệt tối đa bằng phí ship + phí hỏa tốc
+    damaged:        { report_within_hours: 24 }
+    wrong_item:     { report_within_hours: 24 }
+    missing_item:   { report_within_hours: 24 }
+    wilted_early:   { report_within: freshness_guarantee }   # theo exchange.freshness_guarantee_days
+    failed_delivery_shop_fault: { report_within_hours: 24 }
+    cancelled_order: { note: "Tự tạo khi huỷ đơn đã thanh toán (CHG-02)." }
+    other:          { always_requires_approval: true }
+  late_delivery_compensation:              # REF-04: áp dụng khi lỗi do tiệm (không tính ngày cao điểm trong ±30 phút)
+    - { late_minutes_over: 30, late_minutes_upto: 60, offer: "goodwill_code_10_percent" }
+    - { late_minutes_over: 60, offer: "refund_shipping_fee_and_goodwill_code_10_percent" }
+  shop_fault_options:                      # REF-05: hoa dập/héo khi nhận, sai mẫu, thiếu món
+    - redeliver_free_within_hours: 3
+    - full_or_partial_refund
+    - store_credit_plus_10_percent
+
+# -----------------------------------------------------------------------------
+# 5. Đổi trả & cam kết độ tươi (bảo hành)
+# -----------------------------------------------------------------------------
+exchange:
+  id: EXC-01
+  fresh_flowers:
+    report_within_hours: 24                # EXC-02: dập, gãy, sai mẫu, thiếu -> báo trong 24 giờ kể từ lúc nhận
+    evidence_required: true                # ảnh/video toàn bó + cận cảnh
+    change_of_mind_accepted: false         # EXC-03: hoa tươi đã nhận đúng mẫu không đổi vì không thích
+  freshness_guarantee_days:                # EXC-04: cam kết tươi tính từ ngày nhận, khi chăm đúng hướng dẫn
+    default: 3          # bó, giỏ, hộp, bình hoa
+    hydrangea: 2        # sản phẩm chính là cẩm tú cầu
+    stems: 2            # hoa lẻ theo cành
+    orchid_pot: 21      # lan hồ điệp chậu
+    event_racks: 1      # kệ khai trương, kệ/vòng chia buồn
+    wedding: 1          # hoa cưới
+  accessories:
+    return_within_days: 7                  # EXC-05: phụ kiện còn nguyên tem/hộp, chưa dùng; lỗi sản xuất đổi mới
+    change_of_mind_accepted: true
+  preserved_flowers:
+    return_within_days: 3                  # EXC-06: hoa sáp, hoa khô: chỉ đổi khi lỗi
+    change_of_mind_accepted: false
+  event_products:                          # EXC-07: kệ khai trương, hoa chia buồn, hoa cưới
+    categories: [ke_khai_truong, hoa_chia_buon, hoa_cuoi]
+    report_within_hours: 2                 # báo lỗi trong 2 giờ sau khi giao/setup
+    otherwise: requires_approval
+  outside_window: requires_approval        # APR-08
+  resolutions: [redeliver_same, replace_other, refund, store_credit]
+
+# -----------------------------------------------------------------------------
+# 6. Khuyến mãi & mã giảm giá agent được đề xuất
+# -----------------------------------------------------------------------------
+discount:
+  id: DSC-01
+  agent_max_percent: 10                    # DSC-02: agent được tự cấp mã xin lỗi tối đa 10%...
+  agent_max_amount_vnd: 100000             # ...và giảm tối đa 100.000đ / mã
+  approval_required_above: { percent: 10, amount_vnd: 100000 }   # APR-02
+  allowed_reasons: [late_delivery, quality_issue, service_recovery, loyal_customer]
+  goodwill_code:
+    prefix: "XL"
+    validity_days: 30
+    single_use: true
+    bound_to_customer: true
+  max_goodwill_codes_per_customer_90_days: 2   # quá số này -> APR-02
+  stacking_allowed: false                  # DSC-03: mỗi đơn 1 ưu đãi (mã HOẶC ưu đãi hạng thành viên, lấy mức có lợi hơn)
+  never_apply_expired_codes: true          # DSC-04
+  never_invent_codes: true                 # DSC-05: chỉ dùng mã có trong hệ thống / tài liệu khuyến mãi
+  public_codes_doc: "knowledge/26-ma-khuyen-mai-2026.csv"
+
+loyalty:
+  id: LOY-01
+  points_per_vnd: 10000                    # 1 điểm / 10.000đ (tính trên số tiền thực trả)
+  redeem: { points: 100, voucher_vnd: 20000 }
+  tiers:
+    member: { label: "Thành viên",  min_spent_12m_vnd: 0,        discount_percent: 0, free_shipping_zones: [] }
+    loyal:  { label: "Thân thiết",  min_spent_12m_vnd: 3000000,  discount_percent: 5, free_shipping_zones: [] }
+    vip:    { label: "VIP",         min_spent_12m_vnd: 10000000, discount_percent: 8, free_shipping_zones: [Z1, Z2] }
+  birthday_code: { code: "SINHNHAT10", percent: 10, max_vnd: 100000, valid: "trong tháng sinh nhật" }
+
+# -----------------------------------------------------------------------------
+# 7. Tư vấn hoa cưới / sự kiện
+# -----------------------------------------------------------------------------
+consultation:
+  id: CON-01
+  event_types: [wedding, opening, conference, party]
+  modes: [studio, online, onsite]
+  studio_branch: CN01
+  open_weekdays: [1, 2, 3, 4, 5, 6]        # 0 = Thứ Hai (studio nghỉ Thứ Hai)
+  slots: ["09:00", "10:30", "14:00", "15:30"]
+  onsite_slots: ["09:00", "14:00"]
+  duration_minutes: 60
+  consultants_per_slot: 2
+  min_hours_ahead: 24                      # CON-02: đặt lịch trước tối thiểu 24 giờ
+  min_days_between_appointment_and_event: 7
+  recommended_days_before_wedding: 30
+  onsite_fee_vnd: 300000                   # CON-03: khảo sát tận nơi, trừ vào hợp đồng nếu ký
+  onsite_zones: [Z1, Z2, Z3]
+  onsite_fee_collected: "Thu khi tư vấn viên đã đến khảo sát; huỷ lịch trước đó không mất phí"
+  reschedule:
+    free_min_hours_before: 12              # CON-04
+    max_times: 2
+  contract:
+    deposit_percent: 30                    # CON-05: cọc 30% khi ký hợp đồng
+    balance_due_days_before_event: 3
+    free_event_date_change: { times: 1, min_days_before: 15 }   # CON-07; ngoài điều kiện -> APR-14
+    contract_signed_by: "Tư vấn viên tại studio (agent không ký hợp đồng)"
+  deposit_refund_tiers:                    # CON-06: theo số ngày trước ngày sự kiện; LUÔN cần duyệt (APR-05)
+    - { min_days_before_event: 30, refund_percent: 100 }
+    - { min_days_before_event: 15, refund_percent: 50 }
+    - { min_days_before_event: 0,  refund_percent: 0 }
+
+# -----------------------------------------------------------------------------
+# 8. Gói hoa định kỳ
+# -----------------------------------------------------------------------------
+subscription:
+  id: SUB-01
+  term_months: [1, 3, 6]
+  term_discount_percent: { "1": 0, "3": 5, "6": 10 }
+  allowed_zones: [Z1, Z2, Z3]
+  min_start_days_ahead: 1
+  change_notice_hours: 24                  # SUB-02: đổi ngày/khung giờ, tạm ngưng: báo trước >= 24 giờ so với kỳ giao kế tiếp
+  pause:
+    max_days: 30
+    max_times_per_term: 2
+    extends_end_date: true
+  cancellation:                            # SUB-03
+    refund_unused_deliveries: true
+    fee_percent_of_unused: 10
+    refund_over_threshold_requires_approval: true   # theo refund.auto_approve_max_vnd
+  altar_plan_rule: "Giao trước 1 ngày so với mùng 1 và rằm (15) âm lịch."
+
+# -----------------------------------------------------------------------------
+# 9. Việc agent ĐƯỢC tự làm (không cần duyệt) khi đúng điều kiện
+# -----------------------------------------------------------------------------
+agent_may:
+  - { id: AUT-01, action: "Tra cứu đơn/lịch/gói/yêu cầu sau khi xác minh IDV-01" }
+  - { id: AUT-02, action: "Báo giá, tra tồn kho, phí ship, khung giờ còn trống" }
+  - { id: AUT-03, action: "Tạo đơn, đặt lịch tư vấn, đăng ký gói định kỳ khi khách đã xác nhận đủ thông tin" }
+  - { id: AUT-04, action: "Đổi lịch / huỷ đơn trong khung miễn phí của CHG-01, CHG-02" }
+  - { id: AUT-05, action: "Ghi nhận yêu cầu hoàn tiền <= 500.000đ đúng điều kiện REF-*" }
+  - { id: AUT-06, action: "Ghi nhận yêu cầu đổi trả trong thời hạn EXC-*" }
+  - { id: AUT-07, action: "Cấp mã xin lỗi <= 10% và <= 100.000đ (DSC-02)" }
+  - { id: AUT-08, action: "Tạm ngưng / tiếp tục / đổi lịch gói định kỳ đúng SUB-02" }
+
+# -----------------------------------------------------------------------------
+# 10. Danh mục việc PHẢI được nhân viên/quản lý duyệt
+# -----------------------------------------------------------------------------
+approval_required:
+  - { id: APR-01, action: "Hoàn tiền > 500.000đ cho một yêu cầu", approver: "Quản lý cửa hàng", sla_hours: 4 }
+  - { id: APR-02, action: "Mã giảm giá > 10% hoặc > 100.000đ, hoặc mã xin lỗi thứ 3 trong 90 ngày", approver: "Quản lý cửa hàng", sla_hours: 4 }
+  - { id: APR-03, action: "Huỷ đơn khi còn < 4 giờ (đơn thường) / < 24 giờ (đơn đặt riêng) hoặc đơn đang cắm/đang giao", approver: "Trưởng ca", sla_hours: 1 }
+  - { id: APR-04, action: "Đổi lịch giao khi còn < 4 giờ, đơn đang cắm/đang giao, hoặc đã đổi 2 lần", approver: "Trưởng ca", sla_hours: 1 }
+  - { id: APR-05, action: "Mọi khoản hoàn cọc hợp đồng hoa cưới/sự kiện", approver: "Quản lý studio", sla_hours: 24 }
+  - { id: APR-06, action: "Giao ngoài vùng Z1–Z4 hoặc báo giá ship riêng", approver: "Trưởng ca", sla_hours: 2 }
+  - { id: APR-07, action: "Đơn hàng hoặc hợp đồng >= 10.000.000đ, hoặc đơn doanh nghiệp xuất hoá đơn công nợ", approver: "Quản lý cửa hàng", sla_hours: 4 }
+  - { id: APR-08, action: "Đổi trả / hoàn tiền ngoài thời hạn hoặc thiếu bằng chứng", approver: "Quản lý cửa hàng", sla_hours: 4 }
+  - { id: APR-09, action: "Bồi thường ngoài chính sách (tặng sản phẩm, hoàn > giá trị đơn, đền bù sự kiện)", approver: "Quản lý cửa hàng", sla_hours: 24 }
+  - { id: APR-10, action: "Đổi lịch tư vấn khi còn < 12 giờ hoặc đã đổi 2 lần", approver: "Quản lý studio", sla_hours: 4 }
+  - { id: APR-11, action: "Khiếu nại lần 2 trở lên, khách đe doạ đăng mạng xã hội/báo chí, hoặc xác minh sai 3 lần", approver: "Quản lý CSKH", sla_hours: 2 }
+  - { id: APR-12, action: "Sửa/xoá dữ liệu cá nhân, xuất lịch sử mua hàng theo yêu cầu", approver: "Quản lý CSKH", sla_hours: 72 }
+  - { id: APR-13, action: "Huỷ gói định kỳ có tiền hoàn > 500.000đ, hoặc tạm ngưng quá 30 ngày / quá 2 lần", approver: "Quản lý cửa hàng", sla_hours: 24 }
+  - { id: APR-14, action: "Đổi ngày sự kiện đã ký hợp đồng lần 2, hoặc khi còn < 15 ngày", approver: "Quản lý studio", sla_hours: 24 }
+
+# -----------------------------------------------------------------------------
+# 11. Agent KHÔNG ĐƯỢC làm (guardrail chặn cứng)
+# -----------------------------------------------------------------------------
+agent_must_not:
+  - { id: NOT-01, rule: "Tiết lộ thông tin đơn/khách khi chưa xác minh đủ mã + SĐT người đặt." }
+  - { id: NOT-02, rule: "Hứa hoàn tiền, cấp mã, đổi lịch vượt ngưỡng trước khi hệ thống/quản lý duyệt; phải nói rõ 'đang chờ duyệt'." }
+  - { id: NOT-03, rule: "Bịa mã giảm giá, áp mã hết hạn, hoặc cộng dồn nhiều ưu đãi trên một đơn." }
+  - { id: NOT-04, rule: "Cam kết hoa giống ảnh 100%, cam kết 'không bao giờ héo', hoặc hứa loại hoa đang hết mùa/hết hàng." }
+  - { id: NOT-05, rule: "Báo giá, phí ship, khung giờ khác với bảng giá / hệ thống." }
+  - { id: NOT-06, rule: "Đổ lỗi cho khách, người nhận hoặc shipper; tranh cãi với khách." }
+  - { id: NOT-07, rule: "Nhắc tên hoặc so sánh với tiệm hoa khác." }
+  - { id: NOT-08, rule: "Tư vấn y tế (dị ứng phấn hoa, ngộ độc thú cưng...) ngoài việc khuyên hỏi bác sĩ/bác sĩ thú y và gợi ý hoa ít phấn." }
+  - { id: NOT-09, rule: "Dùng giọng vui đùa, emoji, chữ 'chúc mừng' trong ngữ cảnh chia buồn." }
+  - { id: NOT-10, rule: "Đọc lại nội dung thiệp hoặc thông tin người nhận cho bất kỳ ai ngoài người đặt." }
+
+# -----------------------------------------------------------------------------
+# 12. Chuyển giao cho nhân viên
+# -----------------------------------------------------------------------------
+escalation:
+  id: ESC-01
+  channels:
+    hotline: "0292 3 868 186 (07:00–21:00)"
+    zalo: "0939 868 186"
+    email: "cskh@mocmienflorist.vn"
+  pending_approval_message: "Dạ yêu cầu của anh/chị đã được ghi nhận với mã {request_code} và đang chờ {approver} duyệt, Mộc Miên sẽ phản hồi trong khoảng {sla_hours} giờ làm việc ạ."
+  out_of_hours: "Ngoài 07:00–21:00, ghi nhận yêu cầu và hẹn liên hệ lại từ 07:30 sáng hôm sau."
+  triggers: [APR-01, APR-02, APR-03, APR-04, APR-05, APR-06, APR-07, APR-08, APR-09, APR-10, APR-11, APR-12, APR-13, APR-14]

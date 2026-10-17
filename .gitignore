@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+moc-mien-florist/api/data/*.db
+moc-mien-florist/api/data/*.db-journal
