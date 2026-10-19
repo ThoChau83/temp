@@ -1,0 +1,11 @@
+coach_id,full_name,specialty,certifications,available_days,available_hours,hourly_rate_tier,branch,years_experience,rating,bio
+PT001,Lê Quang Huy,"Thể hình, HIIT, Giảm cân","ACE-CPT, ISSA Fitness Trainer","Monday,Wednesday,Friday,Saturday","06:00-12:00, 17:00-21:00",tier_A,quan-7,7,4.8,"Chuyên gia giảm cân và tăng cơ. Đã huấn luyện hơn 200 khách hàng."
+PT002,Nguyễn Thị Mai Anh,"Yoga, Pilates, Phục hồi chấn thương","RYT-200, Balanced Body Pilates","Monday,Tuesday,Thursday,Friday","06:00-12:00, 17:00-21:00",tier_A,quan-7,6,4.9,"Chuyên gia yoga trị liệu và phục hồi chức năng. Kinh nghiệm 6 năm."
+PT003,Trần Đức Long,"Pilates, Stretching, Posture Correction","Polestar Pilates, NASM-CES","Monday,Wednesday,Friday,Sunday","06:00-12:00, 16:00-20:00",tier_B,quan-7,4,4.6,"Chuyên gia chỉnh tư thế và Pilates. Phù hợp người ngồi văn phòng nhiều."
+PT004,Võ Minh Tuấn,"Thể hình, HIIT, Boxing Fitness","ACE-CPT, ISSA","Tuesday,Thursday,Saturday,Sunday","06:00-12:00, 17:00-21:00",tier_B,quan-4,4,4.7,"HLV thể hình toàn diện. Chuyên HIIT và boxing fitness."
+PT005,Phạm Thu Hà,"Yoga, Zumba, Nhóm cơ bản","RYT-200, Zumba Instructor","Tuesday,Thursday,Friday,Saturday","06:00-12:00, 16:00-20:00",tier_B,quan-4,3,4.5,"HLV yoga và Zumba năng động. Phù hợp người mới bắt đầu."
+PT006,Trần Quốc Bảo,"Boxing, Muay Thai, Tự vệ","WBC Muay Thai, ISSA-CPT","Monday,Wednesday,Friday","17:00-21:00",tier_A,quan-7,8,4.8,"Cựu võ sĩ chuyên nghiệp. Chuyên boxing và tự vệ thực chiến."
+PT007,Đặng Văn Hải,"Boxing, Kickboxing, Cardio","ACE-CPT, Boxing Coach Level 2","Tuesday,Thursday,Saturday","17:00-21:00",tier_B,quan-4,4,4.6,"HLV boxing và kickboxing. Phong cách huấn luyện nghiêm túc nhưng vui vẻ."
+PT008,Maria Santos,"Zumba, Dance Fitness, Cardio","Zumba Instructor, AFAA Group Fitness","Monday,Wednesday,Friday","18:00-21:00",tier_A,quan-7,5,4.9,"HLV Zumba quốc tế. Năng lượng cao, lớp học luôn sôi động."
+PT009,Ngô Thanh Tùng,"Thể hình, Powerlifting, Dinh dưỡng","NSCA-CSCS, Precision Nutrition L1","Monday,Tuesday,Wednesday,Thursday","06:00-14:00",tier_A,quan-7,9,4.7,"Chuyên gia powerlifting và dinh dưỡng thể thao. Kinh nghiệm 9 năm."
+PT010,Lý Thị Kim Ngân,"Yoga Prenatal, Yoga Postnatal, Phụ nữ","RYT-200, Prenatal Yoga Certification","Tuesday,Wednesday,Thursday,Saturday","08:00-16:00",tier_B,quan-4,4,4.8,"Chuyên gia yoga cho phụ nữ mang thai và sau sinh."

@@ -1,0 +1,19 @@
+date,weekday,branch,closure_type,open_time,close_time,occasion,lunar_date,note
+2026-11-10,T3,quan-7,maintenance,,,Bảo trì thiết bị định kỳ Q4/2026,,"Chi nhánh Quận 7 đóng cửa cả ngày, Quận 4 mở bình thường. Lớp và buổi PT trong ngày được dời hoặc hoàn lượt, không mất phí. Thông báo trước 7 ngày."
+2026-11-12,T5,quan-4,maintenance,,,Bảo trì thiết bị định kỳ Q4/2026,,"Chi nhánh Quận 4 đóng cửa cả ngày, Quận 7 mở bình thường. Lớp và buổi PT trong ngày được dời hoặc hoàn lượt, không mất phí. Thông báo trước 7 ngày."
+2027-01-01,T6,all,holiday_hours,07:00,21:00,Tết Dương lịch,,Mở theo giờ cuối tuần.
+2027-02-04,T5,all,closed,,,Nghỉ Tết Nguyên Đán Đinh Mùi,28/12 Bính Ngọ,"Đóng cửa cả 2 chi nhánh. Hotline, email và chat AI vẫn nhận yêu cầu; nhân viên phản hồi từ 07/02/2027."
+2027-02-05,T6,all,closed,,,Nghỉ Tết Nguyên Đán Đinh Mùi,29/12 Bính Ngọ,"Ngày cuối năm âm lịch (tháng Chạp thiếu, không có ngày 30). Đóng cửa cả 2 chi nhánh."
+2027-02-06,T7,all,closed,,,Mùng 1 Tết Đinh Mùi,01/01 Đinh Mùi,Đóng cửa cả 2 chi nhánh.
+2027-02-07,CN,all,holiday_hours,07:00,21:00,Mùng 2 Tết,02/01 Đinh Mùi,Mở cửa lại theo giờ ngày lễ.
+2027-02-08,T2,all,holiday_hours,07:00,21:00,Mùng 3 Tết,03/01 Đinh Mùi,Mở theo giờ ngày lễ. Từ 09/02/2027 hoạt động theo giờ thường.
+2027-03-09,T3,quan-7,maintenance,,,Bảo trì thiết bị định kỳ Q1/2027,,"Chi nhánh Quận 7 đóng cửa cả ngày, Quận 4 mở bình thường. Lớp và buổi PT trong ngày được dời hoặc hoàn lượt, không mất phí."
+2027-03-11,T5,quan-4,maintenance,,,Bảo trì thiết bị định kỳ Q1/2027,,"Chi nhánh Quận 4 đóng cửa cả ngày, Quận 7 mở bình thường. Lớp và buổi PT trong ngày được dời hoặc hoàn lượt, không mất phí."
+2027-04-16,T6,all,holiday_hours,07:00,21:00,Giỗ Tổ Hùng Vương,10/03 Đinh Mùi,Mở theo giờ ngày lễ.
+2027-04-30,T6,all,holiday_hours,07:00,21:00,Ngày Giải phóng miền Nam,,Mở theo giờ ngày lễ.
+2027-05-01,T7,all,holiday_hours,07:00,21:00,Quốc tế Lao động,,Trùng Thứ 7 nên giữ giờ cuối tuần.
+2027-06-08,T3,quan-7,maintenance,,,Bảo trì thiết bị định kỳ Q2/2027,,"Chi nhánh Quận 7 đóng cửa cả ngày, Quận 4 mở bình thường. Lớp và buổi PT trong ngày được dời hoặc hoàn lượt, không mất phí."
+2027-06-10,T5,quan-4,maintenance,,,Bảo trì thiết bị định kỳ Q2/2027,,"Chi nhánh Quận 4 đóng cửa cả ngày, Quận 7 mở bình thường. Lớp và buổi PT trong ngày được dời hoặc hoàn lượt, không mất phí."
+2027-09-02,T5,all,holiday_hours,07:00,21:00,Quốc khánh,,Ngày nghỉ liền kề theo thông báo của Chính phủ (nếu có) cũng mở theo giờ ngày lễ.
+2027-09-07,T3,quan-7,maintenance,,,Bảo trì thiết bị định kỳ Q3/2027,,"Chi nhánh Quận 7 đóng cửa cả ngày, Quận 4 mở bình thường. Lớp và buổi PT trong ngày được dời hoặc hoàn lượt, không mất phí."
+2027-09-09,T5,quan-4,maintenance,,,Bảo trì thiết bị định kỳ Q3/2027,,"Chi nhánh Quận 4 đóng cửa cả ngày, Quận 7 mở bình thường. Lớp và buổi PT trong ngày được dời hoặc hoàn lượt, không mất phí."

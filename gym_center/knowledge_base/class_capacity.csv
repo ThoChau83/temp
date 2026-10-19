@@ -1,0 +1,12 @@
+room_id,room_name,branch,floor,max_capacity,equipment_available,special_notes
+STU-A-Q7,Studio A,quan-7,2,25,"Thảm yoga, gạch yoga, dây kháng lực, loa Bluetooth","Phòng rộng 80m2. Gương toàn bộ tường. Phù hợp Yoga, Zumba, Stretching."
+STU-B-Q7,Studio B,quan-7,2,15,"Tạ tay (2-20kg), kettlebell, battle rope, box jump, loa","Phòng 60m2. Sàn cao su chống sốc. Phù hợp HIIT, Pilates."
+STU-C-Q7,Studio C,quan-7,2,12,"Bao cát, găng boxing, dây nhảy, shield tập, loa","Phòng 50m2. Sàn chuyên dụng boxing. Phù hợp Boxing, Kickboxing."
+SPIN-Q7,Spin Room,quan-7,2,15,"15 xe đạp spin, màn hình LED, hệ thống âm thanh vòm","Phòng 45m2. Điều hòa riêng. Phù hợp Spin Cycling."
+GYM-Q7,Phòng Gym Tự Do,quan-7,1,50,"Máy tập toàn diện, free weight, cable machine, cardio","Sức chứa tối đa 50 người cùng lúc. Không cần đặt chỗ."
+STU-A-Q4,Studio A,quan-4,2,25,"Thảm yoga, gạch yoga, dây kháng lực, loa Bluetooth","Phòng rộng 75m2. Phù hợp Yoga, Zumba, Stretching."
+STU-B-Q4,Studio B,quan-4,2,15,"Tạ tay (2-20kg), kettlebell, battle rope, loa","Phòng 55m2. Sàn cao su. Phù hợp HIIT, Pilates."
+STU-C-Q4,Studio C,quan-4,2,12,"Bao cát, găng boxing, dây nhảy, shield tập","Phòng 45m2. Phù hợp Boxing, Kickboxing."
+SPIN-Q4,Spin Room,quan-4,2,12,"12 xe đạp spin, màn hình LED, loa","Phòng 40m2. Phù hợp Spin Cycling."
+GYM-Q4,Phòng Gym Tự Do,quan-4,1,40,"Máy tập toàn diện, free weight, cable machine, cardio","Sức chứa tối đa 40 người cùng lúc. Không cần đặt chỗ."
+YOGA-Q4,Phòng Yoga Riêng,quan-4,2,10,"Thảm yoga, gối và bóng tập cho bà bầu, gạch yoga, loa","Phòng 30m2, yên tĩnh. Dùng cho lớp Yoga Prenatal."

@@ -1,0 +1,33 @@
+class_id,class_name,coach_name,day_of_week,start_time,end_time,branch,room,capacity,level,description
+YOGA01,Yoga Cơ Bản,Nguyễn Thị Mai Anh,Monday,06:00,07:00,quan-7,Studio A,20,beginner,Yoga nhẹ nhàng phù hợp người mới bắt đầu
+YOGA02,Yoga Nâng Cao,Nguyễn Thị Mai Anh,Monday,07:15,08:15,quan-7,Studio A,18,advanced,Yoga nâng cao với các tư thế khó
+YOGA03,Yoga Flow,Trần Đức Long,Wednesday,06:00,07:00,quan-4,Studio A,20,intermediate,Yoga kết hợp nhịp thở và chuyển động
+YOGA04,Yoga Thiền,Nguyễn Thị Mai Anh,Friday,18:00,19:00,quan-7,Studio A,20,all levels,Yoga kết hợp thiền định giảm stress
+YOGA05,Yoga Cơ Bản,Phạm Thu Hà,Tuesday,06:00,07:00,quan-4,Studio A,20,beginner,Yoga nhẹ nhàng phù hợp người mới bắt đầu
+YOGA06,Yoga Nâng Cao,Phạm Thu Hà,Thursday,07:15,08:15,quan-4,Studio A,18,advanced,Yoga nâng cao với các tư thế khó
+HIIT01,HIIT Đốt Mỡ,Lê Quang Huy,Monday,18:00,18:45,quan-7,Studio B,15,intermediate,Bài tập cường độ cao đốt mỡ toàn thân
+HIIT02,HIIT Cardio,Lê Quang Huy,Wednesday,18:00,18:45,quan-7,Studio B,15,intermediate,HIIT kết hợp cardio tăng sức bền
+HIIT03,HIIT Toàn Thân,Võ Minh Tuấn,Tuesday,18:00,18:45,quan-4,Studio B,15,intermediate,Bài tập toàn thân cường độ cao
+HIIT04,HIIT Đốt Mỡ,Lê Quang Huy,Friday,18:00,18:45,quan-7,Studio B,15,advanced,HIIT cường độ rất cao cho người tập lâu
+HIIT05,HIIT Cardio,Võ Minh Tuấn,Saturday,09:00,09:45,quan-4,Studio B,15,beginner,HIIT nhẹ nhàng cho người mới
+BOX01,Boxing Cơ Bản,Trần Quốc Bảo,Monday,19:00,20:00,quan-7,Studio C,12,beginner,Kỹ thuật boxing cơ bản và thể lực
+BOX02,Boxing Nâng Cao,Trần Quốc Bảo,Wednesday,19:00,20:00,quan-7,Studio C,12,advanced,Kỹ thuật boxing nâng cao và sparring nhẹ
+BOX03,Boxing Cơ Bản,Đặng Văn Hải,Tuesday,19:00,20:00,quan-4,Studio C,12,beginner,Kỹ thuật boxing cơ bản và thể lực
+BOX04,Boxing Fitness,Đặng Văn Hải,Thursday,19:00,20:00,quan-4,Studio C,12,intermediate,Boxing kết hợp thể lực đốt calo
+ZUMBA01,Zumba Latin,Maria Santos,Monday,19:30,20:30,quan-7,Studio A,25,all levels,Nhảy Zumba theo nhạc Latin sôi động
+ZUMBA02,Zumba Fitness,Maria Santos,Wednesday,19:30,20:30,quan-7,Studio A,25,all levels,Zumba kết hợp bài tập fitness
+ZUMBA03,Zumba Latin,Maria Santos,Friday,19:30,20:30,quan-7,Studio A,25,all levels,Nhảy Zumba theo nhạc Latin sôi động
+ZUMBA04,Zumba Cơ Bản,Phạm Thu Hà,Saturday,10:00,11:00,quan-4,Studio A,25,beginner,Zumba nhẹ nhàng cho người mới bắt đầu
+SPIN01,Spin Cycling,Lê Quang Huy,Monday,06:00,06:45,quan-7,Spin Room,15,intermediate,Đạp xe trong nhà theo nhạc
+SPIN02,Spin Endurance,Lê Quang Huy,Wednesday,06:00,06:45,quan-7,Spin Room,15,advanced,Đạp xe sức bền cường độ cao
+SPIN03,Spin Cycling,Võ Minh Tuấn,Tuesday,06:00,06:45,quan-4,Spin Room,12,intermediate,Đạp xe trong nhà theo nhạc
+SPIN04,Spin Cơ Bản,Võ Minh Tuấn,Saturday,08:00,08:45,quan-4,Spin Room,12,beginner,Đạp xe nhẹ nhàng cho người mới
+STRETCH01,Stretching & Recovery,Nguyễn Thị Mai Anh,Monday,20:30,21:15,quan-7,Studio A,20,all levels,Giãn cơ và phục hồi sau tập
+STRETCH02,Stretching & Recovery,Phạm Thu Hà,Wednesday,20:30,21:15,quan-4,Studio A,20,all levels,Giãn cơ và phục hồi sau tập
+STRETCH03,Foam Rolling & Mobility,Trần Đức Long,Sunday,09:00,09:45,quan-7,Studio B,15,all levels,Foam rolling và tăng linh hoạt khớp
+PILATES01,Pilates Core,Trần Đức Long,Monday,17:00,17:50,quan-7,Studio B,12,intermediate,Pilates tăng sức mạnh cơ lõi
+PILATES02,Pilates Cơ Bản,Trần Đức Long,Wednesday,17:00,17:50,quan-7,Studio B,12,beginner,Pilates cho người mới bắt đầu
+PILATES03,Pilates Core,Phạm Thu Hà,Thursday,17:00,17:50,quan-4,Studio B,12,intermediate,Pilates tăng sức mạnh cơ lõi
+KIDS01,Kids Yoga (8-14 tuổi),Nguyễn Thị Mai Anh,Saturday,14:00,14:45,quan-7,Studio A,15,kids,Yoga dành riêng cho trẻ em 8-14 tuổi
+KIDS02,Kids Fitness,Võ Minh Tuấn,Sunday,10:00,10:45,quan-4,Studio B,15,kids,Bài tập vận động cho trẻ em
+PRENATAL01,Yoga Prenatal,Lý Thị Kim Ngân,Wednesday,09:00,10:00,quan-4,Phòng Yoga Riêng,10,prenatal,Yoga cho phụ nữ mang thai; cần giấy khám thai hoặc xác nhận bác sĩ
